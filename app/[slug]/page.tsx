@@ -10,7 +10,7 @@ const Article = async ({ params }: { params: { slug: string } }) => {
       <div className="flex justify-between font-poppins">
         <Link href={"/"} className="flex flex-row gap-1 place-items-center">
           <ArrowLeftIcon width={20} />
-          <p>back to home</p>
+          <p>Back</p>
         </Link>
         <p>{articleData.date.toString()}</p>
       </div>

@@ -9,6 +9,28 @@ import type { ArticleItem } from "@/types"
 
 const articlesDirectory = path.join(process.cwd(), "articles")
 
+const getArticleData = async (id: string) => {
+    const fullPath = path.join(articlesDirectory, `${id}.md`)
+    const fileContents = fs.readFileSync(fullPath, "utf-8")
+
+    const matterResult = matter(fileContents)
+
+    const processedContent = await remark()
+      .use(html)
+      .process(matterResult.content)
+
+    const contentHtml = processedContent.toString()
+
+    return {
+      id,
+      contentHtml,
+      title: matterResult.data.title,
+      date: matterResult.data.date,
+      description: matterResult.data.description,
+      category: matterResult.data.category,
+    }
+}
+
 const getSortedArticles = (): ArticleItem[] => {
   const fileNames = fs.readdirSync(articlesDirectory)
 
@@ -25,6 +47,7 @@ const getSortedArticles = (): ArticleItem[] => {
       title: matterResult.data.title,
       date: matterResult.data.date,
       category: matterResult.data.category,
+      description: matterResult.data.description,
     }
   })
 
@@ -32,12 +55,27 @@ const getSortedArticles = (): ArticleItem[] => {
     const format = "DD-MM-YYYY"
     const dateOne = moment(a.date, format)
     const dateTwo = moment(b.date, format)
-    if (dateOne.isBefore(dateTwo)) {
-      return -1
-    } else if (dateTwo.isAfter(dateOne)) {
-      return 1
-    } else {
-      0
-    }
+
+    if (dateOne.isBefore(dateTwo)) return -1
+    if (dateOne.isAfter(dateTwo)) return 1
+    return 0 // ✅ this line fixes the TypeScript error
   })
 }
+
+const getCategorisedArticles = (): Record<string, ArticleItem[]> => {
+  const sortedArticles = getSortedArticles();
+  const categorisedArticles: Record<string, ArticleItem[]> = {};
+
+  sortedArticles.forEach((article) => {
+    if (!categorisedArticles[article.category]) {
+      categorisedArticles[article.category] = [];
+    }
+    categorisedArticles[article.category].push(article);
+  });
+
+  return categorisedArticles;
+};
+
+
+
+export { getCategorisedArticles, getSortedArticles, getArticleData }

@@ -15,9 +15,9 @@ const ArticleItemList = ({ articles }: Props) => {
           <Link
             href={`/${article.id}`}
             key={id}
-            className="hover:shadow-lg duration-300 border-b-2 border-l-2 px-2 py-3 rounded-md flex flex-col"
+            className="block hover:shadow-md transition-shadow duration-200 border border-neutral-100 px-4 py-3 rounded-lg bg-white"
           >
-            <span className="flex justify-between items-center font-bold text-neutral-900 hover:text-amber-700 transition duration-150">
+            <span className="flex justify-between items-center font-bold text-neutral-900 hover:text-pink-700 transition duration-150">
               {article.title}
               <span className="text-xs px-2 py-0.5 rounded-md border bg-black/5">
                 {article.date}
@@ -31,7 +31,7 @@ const ArticleItemList = ({ articles }: Props) => {
                 WebkitBoxOrient: "vertical",
                 overflow: "hidden",
               }}
-              className="leading-tight text-prose text-sm text-black/70"
+              className="leading-tight text-prose text-sm text-black/70 mt-2"
             >
               {article.description}
             </p>

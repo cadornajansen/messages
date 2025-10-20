@@ -31,14 +31,16 @@ export default function CommentForm({ articleId }: { articleId: string }) {
 
   return (
     <form onSubmit={submit} className="flex flex-col gap-3">
+      {/* name input: minimal, subtle bg, smooth focus */}
       <input
-        className="border px-2 py-1 rounded"
+        className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-sm placeholder:text-neutral-400 transition-shadow duration-200 ease-in-out shadow-sm focus:outline-none focus:ring-0 focus:shadow-md focus:border-pink-500"
         placeholder="Your name (optional)"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
+      {/* textarea: remove native outline, add smooth transition and subtle focus shadow */}
       <textarea
-        className="border px-2 py-1 rounded"
+        className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-sm placeholder:text-neutral-400 transition-shadow duration-200 ease-in-out shadow-sm resize-none focus:outline-none focus:ring-0 focus:shadow-md focus:border-pink-500"
         rows={4}
         placeholder="Write a comment..."
         value={content}
@@ -48,9 +50,9 @@ export default function CommentForm({ articleId }: { articleId: string }) {
         <button
           type="submit"
           disabled={loading}
-          className="bg-amber-600 text-white px-3 py-1 rounded disabled:opacity-50"
+          className="inline-flex items-center gap-2 bg-pink-600 text-white px-4 py-2 rounded-md text-sm shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50"
         >
-          {loading ? "Posting..." : "Post comment"}
+          {loading ? "Sending..." : "Send comment"}
         </button>
         {error && <span className="text-red-600 text-sm">{error}</span>}
       </div>

@@ -1,9 +1,11 @@
-import Link from "next/link"
-import { ArrowLeftIcon } from "@heroicons/react/24/solid"
-import { getArticleData } from "@/lib/articles"
+import Link from "next/link";
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import { getArticleData } from "@/lib/articles";
+import CommentForm from "@/components/CommentForm";
+import CommentList from "@/components/CommentList";
 
 const Article = async ({ params }: { params: { slug: string } }) => {
-  const articleData = await getArticleData(params.slug)
+  const articleData = await getArticleData(params.slug);
 
   return (
     <section className="mx-auto w-10/12 md:w-1/2 mt-20 flex flex-col gap-5">
@@ -18,8 +20,10 @@ const Article = async ({ params }: { params: { slug: string } }) => {
         className="article"
         dangerouslySetInnerHTML={{ __html: articleData.contentHtml }}
       />
+      <CommentForm articleId={articleData.id} />
+      <CommentList articleId={articleData.id} />
     </section>
-  )
-}
+  );
+};
 
-export default Article
+export default Article;
